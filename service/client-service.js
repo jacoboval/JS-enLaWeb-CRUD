@@ -39,18 +39,37 @@ const table = document.querySelector("[data-table]")
 // update - Put / Patch
 // delete - Delete
 
-const http = new XMLHttpRequest;
-http.open("GET", "http://localhost:3000/perfil")
+const listaClientes = () => {
+    const promise = new Promise((resolve,reject) => {
+    const http = new XMLHttpRequest();
+    http.open("GET", "http://localhost:3000/perfil");
 
-http.send();
-http.onload = ()=>{
-    const data = JSON.parse(http.response);
-    //console.log(data);
+    http.send();
+
+    http.onload = () => {
+        const response = JSON.parse(http.response);
+        //console.log(data);
+        if (http.status >= 400) {
+            reject(response)
+        } else {
+            resolve(response)
+        }
+     };        
+    });
+    return promise;   
+};
+
+listaClientes().then((data) => {
+    console.log(data);
+    //  lo que sale de la promesa(response), se convierte en data
     data.forEach((perfil) => {
         const nuevaLinea = crearNuevaLinea(perfil.nombre, perfil.email);
-        table.appendChild(nuevaLinea);        
-    });
-    //console.log(data);
-}
+        table.appendChild(nuevaLinea);
+    });   
+}).catch((error) => alert("Ocurrio un error"));
+
+
+
+
 
 
