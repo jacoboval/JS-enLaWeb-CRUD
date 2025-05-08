@@ -6,10 +6,11 @@ import { clientServices } from "../service/client-service.js";
 console.log(clientServices);
 
 
-const crearNuevaLinea = (nombre, email) => {
+const crearNuevaLinea = (nombre, email,id) => {
+   console.log(id);
+    
     const linea = document.createElement("tr");
-    const contenido =
-        `
+    const contenido = `
     <td class="td" data-td>${nombre}</td>
         <td>${email}</td>
         <td>
@@ -22,19 +23,28 @@ const crearNuevaLinea = (nombre, email) => {
                     >
                 </li>
                 <li>
-                    <button
-                        class="simple-button simple-button--delete"
-                        type="button"
-                    >
+                    <button class="simple-button simple-button--delete" type="button" id="${id}">
                         Eliminar
                     </button>
                 </li>
             </ul>
         </td>
-    `
+    `;
     linea.innerHTML = contenido;
-    return linea
+    const btn = linea.querySelector("button");
+    btn.addEventListener("click", () => {
+        const id = btn.id;
+        clientServices
+            .eliminarCliente(id)
+            .then((respuesta) => {
+                console.log(respuesta);
+            })
+            .catch((err) => alert("Ocurrió un error"));
+    });
+
+    return linea;
 };
+
 //console.log("CLIENTE-SERVICE");
 
 const table = document.querySelector("[data-table]")
@@ -45,8 +55,13 @@ clientServices
 .then((data) => {
     console.log(data);
     //  lo que sale de la promesa(response), se convierte en data
-    data.forEach((perfil) => {
-        const nuevaLinea = crearNuevaLinea(perfil.nombre, perfil.email);
+    //data.forEach((perfil) => {
+    //data.forEach((perfil) => {
+    data.forEach(({nombre,email,id}) => {
+        //console.log(perfil);
+        
+        //const nuevaLinea = crearNuevaLinea(perfil.nombre, perfil.email);
+        const nuevaLinea = crearNuevaLinea(nombre, email,id);
         table.appendChild(nuevaLinea);
     });
 }).catch((error) => alert("Ocurrio un error"));
