@@ -39,24 +39,17 @@ const table = document.querySelector("[data-table]")
 // update - Put / Patch
 // delete - Delete
 
+
 const listaClientes = () => {
-    const promise = new Promise((resolve,reject) => {
-    const http = new XMLHttpRequest();
-    http.open("GET", "http://localhost:3000/perfil");
+   
+    //fetch API, regresa por dentro una promesa
+    
+    /*return fetch("http://localhost:3000/perfil").then((resuesta) => {
+        return resuesta.json();    
 
-    http.send();
-
-    http.onload = () => {
-        const response = JSON.parse(http.response);
-        //console.log(data);
-        if (http.status >= 400) {
-            reject(response)
-        } else {
-            resolve(response)
-        }
-     };        
-    });
-    return promise;   
+    });*/
+    //se puede regresar algo sin necesidad de especificarlo
+    return fetch("http://localhost:3000/perfil").then((resuesta) => resuesta.json());
 };
 
 listaClientes().then((data) => {
