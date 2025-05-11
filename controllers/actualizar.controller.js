@@ -2,8 +2,7 @@
 import { clientServices } from "../service/client-service.js";
 const formulario = document.querySelector("[data-form]")
 
-//  async functiom 
-//const obtenerInformacion = async () => {
+
 const obtenerInformacion = () =>{
     const url = new URL(window.location);
     const id = url.searchParams.get("id");
@@ -13,7 +12,7 @@ const obtenerInformacion = () =>{
 
     if(id === null ){
         //console.log();
-        window.location.href  = "/screens/error.html"
+        window.location.href  = "/screens/actualizerror.html"
     }
 
     console.log(nombre, " - " , email);
